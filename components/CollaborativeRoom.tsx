@@ -3,7 +3,6 @@
 import { ClientSideSuspense, RoomProvider } from '@liveblocks/react/suspense'
 import { Editor } from '@/components/editor/Editor'
 import Header from '@/components/Header'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import ActiveCollaborators from './ActiveCollaborators';
 import { useEffect, useRef, useState } from 'react';
 import { Input } from './ui/input';
@@ -112,12 +111,7 @@ const CollaborativeRoom = ({ roomId, roomMetadata, users, currentUserType }: Col
                 currentUserType={currentUserType}
               />
 
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
+              <span className="text-sm text-blue-100">Local user</span>
             </div>
           </Header>
         <Editor roomId={roomId} currentUserType={currentUserType} />

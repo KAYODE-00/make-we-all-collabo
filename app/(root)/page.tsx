@@ -6,14 +6,12 @@ import { Button } from '@/components/ui/button'
 import { getDocuments } from '@/lib/actions/room.actions';
 import { dateConverter } from '@/lib/utils';
 import { SignedIn, UserButton } from '@clerk/nextjs'
-import { currentUser } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { getCurrentClerkUser } from '@/lib/clerk';
 
 const Home = async () => {
-  const clerkUser = await currentUser();
-  if(!clerkUser) redirect('/sign-in');
+  const clerkUser = await getCurrentClerkUser();
 
   const roomDocuments = await getDocuments(clerkUser.emailAddresses[0].emailAddress);
 

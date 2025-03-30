@@ -2,12 +2,11 @@
 
 import Loader from '@/components/Loader';
 import { getClerkUsers, getDocumentUsers } from '@/lib/actions/user.actions';
-import { useUser } from '@clerk/nextjs';
 import { ClientSideSuspense, LiveblocksProvider } from '@liveblocks/react/suspense';
 import { ReactNode } from 'react';
 
 const Provider = ({ children }: { children: ReactNode}) => {
-  const { user: clerkUser } = useUser();
+  const clerkUser = null;
 
   return (
     <LiveblocksProvider 
@@ -15,16 +14,16 @@ const Provider = ({ children }: { children: ReactNode}) => {
       resolveUsers={async ({ userIds }) => {
         const users = await getClerkUsers({ userIds});
 
-        return users;
+        return users ?? [];
       }}
       resolveMentionSuggestions={async ({ text, roomId }) => {
         const roomUsers = await getDocumentUsers({
           roomId,
-          currentUser: clerkUser?.emailAddresses[0].emailAddress!,
+          currentUser: clerkUser?.emailAddresses?.[0]?.emailAddress ?? 'local-user@example.com',
           text,
         })
 
-        return roomUsers;
+        return roomUsers ?? [];
       }}
     >
       <ClientSideSuspense fallback={<Loader />}>

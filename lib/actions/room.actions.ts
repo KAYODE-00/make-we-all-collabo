@@ -6,6 +6,10 @@ import { revalidatePath } from 'next/cache';
 import { getAccessType, parseStringify } from '../utils';
 import { redirect } from 'next/navigation';
 
+const localRoomData = {
+  data: [] as Array<{ id: string; metadata: { title: string }; createdAt: string }>,
+};
+
 export const createDocument = async ({ userId, email }: CreateDocumentParams) => {
   const roomId = nanoid();
 
@@ -73,6 +77,7 @@ export const getDocuments = async (email: string ) => {
       return parseStringify(rooms);
   } catch (error) {
     console.log(`Error happened while getting rooms: ${error}`);
+    return parseStringify(localRoomData);
   }
 }
 
